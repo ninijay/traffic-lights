@@ -2,6 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <GDBStub.h>
 #include "../../lib/src/stlpp.h"
+#include "../../lib/src/stlpp.c"
 #define RED_LED D1 // Led in NodeMCU at pin GPIO16 (D0).
 #define GREEN_LED D2
 #define YELLOW_LED D7
@@ -126,6 +127,13 @@ void loop() {
     delay(1000);
     turn_yellow();
     delay(1000);
+
+    // test packet
+    uint8_t x= 7;
+    STLPP* p = makeSTLPP(x, x, RED, GREEN);
+    Serial.println(serializeSTLPP(p));
+    p = makeSTLPP(serializeSTLPP(p));
+    Serial.println(serializeSTLPP(p));
     if (!client.connected()) {
         reconnect();
     }
