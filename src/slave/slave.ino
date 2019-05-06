@@ -18,6 +18,7 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 
+void turn_light(STLPP *p);
 void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("Received message [");
     Serial.print(topic);
@@ -31,6 +32,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
     msg[length] = '\0';
     Serial.println(msg);
+    turn_light(makeSTLPP(msg));
 }
 
 void setup() {
@@ -121,19 +123,13 @@ void reconnect() {
 }
 
 void loop() {
-    turn_red();
+/*    turn_red();
     delay(1000);
     turn_green();
     delay(1000);
     turn_yellow();
     delay(1000);
-
-    // test packet
-    uint8_t x= 7;
-    STLPP* p = makeSTLPP(x, x, RED, GREEN);
-    Serial.println(serializeSTLPP(p));
-    p = makeSTLPP(serializeSTLPP(p));
-    Serial.println(serializeSTLPP(p));
+*/
     if (!client.connected()) {
         reconnect();
     }

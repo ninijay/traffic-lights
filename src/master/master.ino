@@ -3,6 +3,7 @@
 #include <PubSubClient.h>
 #include "uMQTTBroker.h"
 #include "../../lib/src/stlpp.h"
+#include "../../lib/src/stlpp.c"
 
 const char* ssid = "traffic-light-poc";
 const char* password = "traffic2019";
@@ -27,10 +28,7 @@ void setup(void){
 int counter=0;
 
 void loop(void){
-
-    
-
-    myBroker.publish("lights/1", (String)counter++);
+    myBroker.publish("lights/1", serializeSTLPP(makeSTLPP(0, 1, EMPTY, RED))); 
     Serial.println("send message");
     delay(1000);
 }
