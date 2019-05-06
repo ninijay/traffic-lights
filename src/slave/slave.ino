@@ -6,6 +6,7 @@
 #define GREEN_LED D2
 #define YELLOW_LED D7
 
+const char* light = "lights/1";
 const char* ssid="traffic-light-poc";
 const char* password="traffic2019";
 const char* mqtt_broker="192.168.4.1";
@@ -115,7 +116,7 @@ void reconnect() {
             delay(5000);
         }
     }
-    client.subscribe("controller/counter");
+    client.subscribe(light);
 }
 
 void loop() {

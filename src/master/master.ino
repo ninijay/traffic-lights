@@ -2,6 +2,7 @@
 #include <WiFiClient.h>
 #include <PubSubClient.h>
 #include "uMQTTBroker.h"
+#include "../../lib/src/stlpp.h"
 
 const char* ssid = "traffic-light-poc";
 const char* password = "traffic2019";
@@ -26,12 +27,10 @@ void setup(void){
 int counter=0;
 
 void loop(void){
-    myBroker.publish("controller/counter", (String)counter++);
+
+    
+
+    myBroker.publish("lights/1", (String)counter++);
     Serial.println("send message");
     delay(1000);
-    char* data=(char*)malloc(256);
-    data="test\0";
-    Serial.println(data);
-    myBroker.onData("controller/counter", data, 256);
-    Serial.println(data);
 }
