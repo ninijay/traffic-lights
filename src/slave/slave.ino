@@ -91,6 +91,8 @@ void turn_red(){
 }
 
 void turn_light(STLPP *p){
+    if(p->s_id != 0)
+	return;
     switch(p->n_state){
 	case RED: 
 	    turn_red();
@@ -106,6 +108,13 @@ void turn_light(STLPP *p){
 	    turn_red();
 	    break;
     }
+    p->s_id=1;
+    p->r_id=0;
+    p->c_state=p->n_state;
+    client.publish(light, serializeSTLPP(p));
+    Serial.print("sent ");
+    Serial.print(serializeSTLPP(p));
+    Serial.println();
 }
 
 
@@ -123,13 +132,6 @@ void reconnect() {
 }
 
 void loop() {
-/*    turn_red();
-    delay(1000);
-    turn_green();
-    delay(1000);
-    turn_yellow();
-    delay(1000);
-*/
     if (!client.connected()) {
         reconnect();
     }
