@@ -16,7 +16,9 @@ class myMQTTBroker: public uMQTTBroker{
 	    os_memcpy(data_str, data, length);
 	    data_str[length] = '\0';
 	    Serial.println("received topic '"+topic+"' with data '"+(String)data_str+"'");
-	    light1(makeSTLPP(data_str));
+	    STLPP* p = makeSTLPP(data_str);
+	    Serial.println("created Packet");
+	    light1(p);
 	}
 
 };
@@ -34,7 +36,7 @@ void setup(void){
   Serial.print("IP address: ");
   Serial.println(WiFi.softAPIP());
   myBroker.init();
-  myBroker.subscribe("#");
+  myBroker.subscribe("#"); //subscribe to all channels
   myBroker.publish("lights/1", serializeSTLPP(makeSTLPP(0, 1, EMPTY, RED))); 
 }
 
@@ -65,7 +67,9 @@ void light1(STLPP* p){
 	    p->n_state = RED;
 	    break;
     }
-    Serial.println(serializeSTLPP(p));
+    Serial.print("sent ");
+    Serial.print(serializeSTLPP(p));
+    Serial.println();
     myBroker.publish(channel, serializeSTLPP(p));
 }
 
